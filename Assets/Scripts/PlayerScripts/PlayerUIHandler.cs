@@ -4,35 +4,32 @@ using UnityEngine;
 
 public class PlayerUIHandler : MonoBehaviour
 {
-    public HealthBar healthBar;
+    public UIBar healthBar;
+    public UIBar dashBar;
     [SerializeField] private float health;
-    private float hpIncrementAmout;
-    [SerializeField] private float hpBarOffset = 0.02f;
+    [SerializeField] private float barOffset = 0.163f;
+    float barScaleIncrementAmout;
     // Start is called before the first frame update
     void Start()
     {
-        healthBar.SetMaxHealth(health);
-        healthBar.SetHealth(health);
-        hpIncrementAmout = 0.15f * healthBar.transform.localScale.x;
-        //hpBarOffset += hpIncrementAmout;
+        barScaleIncrementAmout = 0.15f * healthBar.transform.localScale.x;
+    }
+
+
+    public void UpdateBarMaxValue(UIBar bar, float newMax, float currentValue)
+    {
+        bar.SetMaxValue(newMax);
+        bar.SetValue(currentValue);
+        
+        bar.transform.localScale -= Vector3.left * barScaleIncrementAmout;
+        bar.transform.position -= Vector3.left * barOffset;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            health -= 5;
-            healthBar.SetHealth(health);
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            healthBar.SetMaxHealth(hpIncrementAmout);
-            //healthBar.transform.localScale = new Vector3 (hpIncrementAmout + healthBar.transform.localScale.x, healthBar.transform.localScale.y, healthBar.transform.localScale.z);
-            //healthBar.transform.position = new Vector3(hpIncrementAmout + healthBar.transform.position.x, healthBar.transform.position.y, healthBar.transform.position.z);
-            healthBar.transform.localScale -= Vector3.left * hpIncrementAmout;
-            healthBar.transform.position -= Vector3.left * hpBarOffset;
-        }
+     
     }
+
+    
 }
